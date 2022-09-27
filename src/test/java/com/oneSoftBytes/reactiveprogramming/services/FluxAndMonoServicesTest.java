@@ -182,4 +182,40 @@ class FluxAndMonoServicesTest {
                 .expectNext("Mango", "Orange", "Tomato",  "Lemon")
                 .verifyComplete();
     }
+
+    @Test
+    void fruitsFluxZip() {
+        var  fruitsFlux = fluxAndMonoServices.fruitsFluxZip();
+
+        StepVerifier.create(fruitsFlux)
+                .expectNext("MangoTomato", "OrangeLemon")
+                .verifyComplete();
+    }
+
+    @Test
+    void fruitsFluxZipWith() {
+        var  fruitsFlux = fluxAndMonoServices.fruitsFluxZipWith();
+
+        StepVerifier.create(fruitsFlux)
+                .expectNext("MangoTomato", "OrangeLemon")
+                .verifyComplete();
+    }
+
+    @Test
+    void fruitsFluxZipTuple() {
+        var  fruitsFlux = fluxAndMonoServices.fruitsFluxZipTuple().log();
+
+        StepVerifier.create(fruitsFlux)
+                .expectNext("MangoTomatoPotato", "OrangeLemonBeans")
+                .verifyComplete();
+    }
+
+    @Test
+    void fruitsMonoZipWith() {
+        var  fruitsFlux = fluxAndMonoServices.fruitsMonoZipWith();
+
+        StepVerifier.create(fruitsFlux)
+                .expectNext("MangoTomato")
+                .verifyComplete();
+    }
 }

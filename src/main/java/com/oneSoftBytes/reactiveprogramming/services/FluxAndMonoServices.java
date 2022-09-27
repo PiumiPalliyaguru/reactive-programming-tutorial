@@ -154,6 +154,39 @@ public class FluxAndMonoServices {
         return Flux.mergeSequential(fruits, veggies);
     }
 
+    public Flux<String> fruitsFluxZip() {
+        var fruits = Flux.just("Mango", "Orange");
+        var veggies = Flux.just("Tomato", "Lemon");
+
+        return Flux.zip(fruits, veggies,
+                (first, second) -> first+second).log();
+    }
+
+    public Flux<String> fruitsFluxZipWith() {
+        var fruits = Flux.just("Mango", "Orange");
+        var veggies = Flux.just("Tomato", "Lemon");
+
+        return fruits.zipWith(veggies,
+                (first, second) -> first+second).log();
+    }
+
+    public Flux<String> fruitsFluxZipTuple() {
+        var fruits = Flux.just("Mango", "Orange");
+        var veggies = Flux.just("Tomato", "Lemon");
+        var moreVeggies = Flux.just("Potato", "Beans");
+
+        return Flux.zip(fruits, veggies, moreVeggies)
+                .map(objects -> objects.getT1() + objects.getT2() + objects.getT3());
+    }
+
+    public Mono<String> fruitsMonoZipWith() {
+        var fruits = Mono.just("Mango");
+        var veggies = Mono.just("Tomato");
+
+        return fruits.zipWith(veggies,
+                (first, second) -> first+second).log();
+    }
+
     public static void main(String[] args) {
 
         FluxAndMonoServices fluxAndMonoServices = new FluxAndMonoServices();
