@@ -3,7 +3,9 @@ package com.oneSoftBytes.reactiveprogramming.services;
 import lombok.var;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Hooks;
 import reactor.test.StepVerifier;
+import reactor.tools.agent.ReactorDebugAgent;
 
 import java.util.List;
 
@@ -249,6 +251,9 @@ class FluxAndMonoServicesTest {
 
     @Test
     void fruitsFluxOnErrorMap() {
+        //Hooks.onOperatorDebug();
+        ReactorDebugAgent.init();
+        ReactorDebugAgent.processExistingClasses();
         var  fruitsFlux = fluxAndMonoServices.fruitsFluxOnErrorMap().log();
 
         StepVerifier.create(fruitsFlux)

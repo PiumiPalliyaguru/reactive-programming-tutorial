@@ -225,11 +225,13 @@ public class FluxAndMonoServices {
 
     public Flux<String> fruitsFluxOnErrorMap() {
         return Flux.just("Apple", "Mango", "Orange")
+                .checkpoint("Error check point 1")
                 .map(s -> {
                     if(s.equalsIgnoreCase("Mango"))
                         throw new RuntimeException("Exception occurred");
                     return s.toUpperCase();
                 })
+                .checkpoint("Error check point 2")
                 .onErrorMap(throwable -> {
                     System.out.println("throwable = " + throwable);
                     return  new IllegalStateException("From onError Map");
